@@ -12,7 +12,7 @@
 </head>
 <body>
     <div id = "app">
-        <h3>설문조사 결과 정보</h3>
+        <h3>설문조사 결과 현황</h3>
         <table>
             <thead>
                 <th v-for = "item in header">{{item}}</th>
@@ -35,7 +35,7 @@
       })
     </script>
     <script>
-      axios.get('http://13.125.1.37:5000/api/data')
+      axios.get('http://ourhomecssurvey2022.kro.kr:5000/api/data')
         .then((res) => {
           console.log(res)
           list.ranking = res.data;
