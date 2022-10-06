@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Ourhome JangJang</title>
+</head>
+<body>
+    <div id = "app">
+        <h3>설문조사 결과 정보</h3>
+        <table>
+            <thead>
+                <th v-for = "item in header">{{item}}</th>
+            </thead>
+            <tbody>
+                <tr v-for="line in ranking">
+                    <td v-for="item in line">{{ item }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+      let list = new Vue({
+          el : '#app', 
+          data : {
+              header: ["번호", "영업점 정보", "설문조사 현황"],
+              ranking: []
+          }
+      })
+    </script>
+    <script>
+      axios.get('http://127.0.0.1:5000/api/data')
+        .then((res) => {
+          console.log(res)
+          list.ranking = res.data;
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+        .finally(()=>{
+          console.log("Finish call data");
+        })
+    </script>
+    <style>
+        table{
+        width: 75%;
+        text-align : left;
+        }
+        tanle th{
+            padding : 12px;
+            border-bottom: 2px solid  darkgray;
+        }
+        table td{
+            padding : 12px;
+        }
+        table tr:nth-of-type(even){
+            background-color: rgba(0,0,255,0.1);
+        }
+    </style>
+</body>
+</html>
