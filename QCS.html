@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Ourhomecssurvey2022</title>
 </head>
 <body>
@@ -35,7 +35,7 @@
       })
     </script>
     <script>
-      axios.get('http://ourhomecssurvey2022.kro.kr:5000/api/data')
+        axios.get('http://ourhomecssurvey2022.kro.kr:5000/api/data')
         .then((res) => {
           console.log(res)
           list.ranking = res.data;
