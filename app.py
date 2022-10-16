@@ -36,7 +36,7 @@ def get_data_from_postgresql():
     
     rows.sort(key=lambda x:x.name)
     
-    excepts = ['Wl074O', 'W2vX3J', 'RZ96pb', 'W7ADn2', 'ML8wOq']
+    excepts = ['Wl074O', 'W2vX3J', 'RZ96pb', 'W7ADn2', 'ML8wOq', 'Wo8Ym1']
     
     result = [{
         'id': idx+1,

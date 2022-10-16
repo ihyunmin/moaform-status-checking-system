@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material/dist/theme/default.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Ourhomecssurvey2022</title>
+</head>
+<body>
+    <div id = "app">
+        <div class="md-layout md-alignment-center-center" style="height: 50px;">
+            <h3>설문조사 결과 현황</h3>
+        </div>
+        <div class="md-layout md-gutter md-alignment-center-center" style="height: 80px;">
+            <md-autocomplete
+                style="width: 500px; height: 36px; margin: 0px;"
+                v-model="search"
+                :md-options="names"
+                md-layout="box"
+                md-dense
+                onKeypress="pressEnterOnSearchFunc(event)">
+                <label >점포명</label>
+            </md-autocomplete>
+            <md-button class="md-primary md-fab-bottom-right" style="height: 48px; margin: 0px;" v-on:click="searchMethod">Search</md-button>
+        </div>
+        <div class="md-layout md-alignment-center-center">
+            <table>
+                <thead>
+                    <th v-for = "item in header" style="background-color: white">{{item}}</th>
+                </thead>
+                <tbody>
+                    <tr v-for="line in ranking">
+                        <td v-for="item in line">{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue-material"></script>
+    <script>
+        function pressEnterOnSearchFunc(event){
+            if(event.keyCode === 13){
+                list.searchMethod();
+            }
+        };
+
+        Vue.use(VueMaterial.default);
+
+        let list = new Vue({
+            el : '#app', 
+            data : {
+                search: '',
+                searchedData: [],
+                header: ["번호", "영업점 정보", "설문조사 현황"],
+                original: [],
+                ranking: [],
+                names: []
+            },
+            created(){
+                axios.get('http://ourhomecssurvey2022.kro.kr:5000/api/data')
+                .then((res) => {
+                    list.ranking = res.data;
+                    list.original = res.data;
+                    for(let i=0; i<res.data.length;i++){
+                        list.names.push(res.data[i].name);
+                    }
+                    console.log()
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+                .finally(()=>{
+                    console.log("Finish call data");
+                })
+            },
+            methods:{
+                searchMethod(){
+                    if(this.search){
+                        this.searchData = this.original.filter(
+                            (data) => { 
+                                return data.name.includes(this.search);
+                            }
+                        );
+                        this.ranking = this.searchData;
+                    }else{
+                        this.ranking = this.original;
+                    }
+                },
+                checkEnter(){
+                    console.log('hi');   
+                }
+            }
+        })
+    </script>
+    <style>
+        table{
+            width: 75%;
+            text-align : left;
+        }
+        table th{
+            padding : 12px;
+            border-bottom: 2px solid  rgb(124, 115, 221);
+        }
+        table td{
+            padding : 12px;
+        }
+        table tr:nth-of-type(odd){
+            background-color: rgba(0,0,255,0.1);
+        }
+    </style>
+</body>
+</html>
