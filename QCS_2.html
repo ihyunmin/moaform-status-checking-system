@@ -63,7 +63,7 @@
                 names: []
             },
             created(){
-                axios.get('http://ourhomecssurvey2022.kro.kr:5000/api/data')
+                axios.get('http://survey2022.kro.kr:5000/api/data')
                 .then((res) => {
                     list.ranking = res.data;
                     list.original = res.data;
